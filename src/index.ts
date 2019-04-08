@@ -5,7 +5,8 @@ import {
   REMOVE,
   RETRY,
   RETRY_ALL,
-  RESET
+  RESET,
+  RESET_THROTTLE
 } from './actions'
 import offlineMiddleware from './offlineMiddleware'
 import { createOfflineActions, markActionsOffline } from './offlineActions'
@@ -22,6 +23,7 @@ module.exports = {
   REMOVE,
   RETRY,
   RETRY_ALL,
+  RESET_THROTTLE,
   createOfflineActions,
   offlineMiddleware,
   markActionsOffline,

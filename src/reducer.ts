@@ -7,40 +7,41 @@ import {
     SUSPEND_SAGA,
     REMOVE,
     RETRY,
-    RESET
+    RESET,
+    RESET_THROTTLE
 } from './actions'
 import { enhace } from './sharedAlgorithms/enhanceAction';
+import { resetThrottle } from './sharedAlgorithms/throttle';
+import getConfig from './config';
 
-/**
- * Reducer for the offline queue.
- *
- * @param {Object} state Offline queue Redux store state.
- * @param {Object} action Action that was dispatched to the store.
- */
-export default function reducer(state = INITIAL_STATE, action:action) {
-    switch (action.type) {
-        case RESET:
-            return { ...INITIAL_STATE }
-        case REHYDRATE: {
-            // Handle rehydrating with custom shallow merge.
+export default function reducer(userConfig?: UserConfig) {
+    const config = getConfig(userConfig)
+    return (state = INITIAL_STATE, action: action) => {
+        switch (action.type) {
+            case RESET:
+                return { ...INITIAL_STATE }
+            case REHYDRATE: {
+                // Handle rehydrating with custom shallow merge.
 
-            if (action.payload && action.payload.offline) {
-                return { ...state, ...action.payload.offline };
+                if (action.payload && action.payload.offline) {
+                    return { ...state, ...action.payload.offline };
+                }
+
+                return state
             }
-
-            return state
+            case SUSPEND_SAGA: {
+                return { ...state, suspendSaga: action.payload.value }
+            }
+            case QUEUE_ACTION:
+                return { ...state, queue: state.queue.concat(enhace(config, action.payload)) }
+            case REMOVE:
+                return removeFromQueue(state, action)
+            case RESET_THROTTLE:
+                return resetThrottle(state, action)
+            case RETRY:
+            default:
+                return state
         }
-        case SUSPEND_SAGA: {
-            return { ...state, suspendSaga: action.payload.value }
-        }
-        case QUEUE_ACTION:
-            return { ...state, queue: state.queue.concat(enhace(action.payload)) }
-        case REMOVE:
-            return removeFromQueue(state, action)
-        case RETRY:
-            return state
-        default:
-            return state
     }
 }
 

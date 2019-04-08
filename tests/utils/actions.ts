@@ -13,7 +13,8 @@ import {
     generateRemoveActionActionNotInQueue,
     generateRemoveActionActionInQueue,
     generateActionInQueue,
-    generateConsumeAction
+    generateConsumeAction,
+    generateResetThrottleAction
 } from "./actionGenerators";
 
 export const ANY_NON_QUEUEABLE_ACTION = 'ANY_NON_QUEUEABLE_ACTION';
@@ -30,6 +31,7 @@ export const REMOVE_ACTION_NOT_IN_QUEUE = 'REMOVE_ACTION_NOT_IN_QUEUE'
 export const REMOVE_ACTION_IN_QUEUE = 'REMOVE_ACTION_IN_QUEUE'
 export const ACTION_IN_QUEUE = 'ACTION_IN_QUEUE'
 export const CONSUME_FIRST_FROM_QUEUE = 'CONSUME'
+export const RESET_THROTTLE = 'RESET_THROTTLE'
 
 export const actions = [
     ANY_NON_QUEUEABLE_ACTION,
@@ -44,6 +46,7 @@ export const actions = [
     RETRY_ACTION_IN_QUEUE,
     REMOVE_ACTION_NOT_IN_QUEUE,
     REMOVE_ACTION_IN_QUEUE,
+    RESET_THROTTLE
 ]
 
 export function generateAction(type, queue) {
@@ -77,5 +80,7 @@ export function generateAction(type, queue) {
             return generateActionInQueue(queue)
         case CONSUME_FIRST_FROM_QUEUE:
             return generateConsumeAction(queue)
+        case RESET_THROTTLE:
+            return generateResetThrottleAction(queue)
     }
 }

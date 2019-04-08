@@ -92,9 +92,9 @@ export const omitLastQueuedActionsId = queue => over(
     queue
 )
 
-export function passThroughPipeline(preloadedState, action) {
+export function passThroughPipeline(preloadedState, action, config?) {
 
-    const pipeline = wholePipeline(preloadedState)
+    const pipeline = wholePipeline(preloadedState, config)
 
     pipeline.store.dispatch(action)
 

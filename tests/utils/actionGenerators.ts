@@ -4,7 +4,8 @@ import {
     RETRY,
     QUEUE_ACTION,
     REMOVE,
-    CONSUME
+    CONSUME,
+    RESET_THROTTLE
 } from "../../src/actions";
 import faker from 'faker';
 import {v1 as uuid} from 'uuid'
@@ -151,6 +152,17 @@ export function generateConsumeAction(queue) {
 
     return {
         type: CONSUME,
+        payload: {
+            ...queue[0]
+        },
+    }
+
+}
+
+export function generateResetThrottleAction(queue) {
+
+    return {
+        type: RESET_THROTTLE,
         payload: {
             ...queue[0]
         },
