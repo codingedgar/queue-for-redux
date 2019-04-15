@@ -29,3 +29,7 @@ type MiddlewareContext = {
     next,
     action
 }
+
+type Store = {
+    queue: action[],
+}

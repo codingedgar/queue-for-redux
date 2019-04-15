@@ -16,7 +16,7 @@ import getConfig from './config';
 
 export default function reducer(userConfig?: UserConfig) {
     const config = getConfig(userConfig)
-    return (state = INITIAL_STATE, action: action) => {
+    return (state: Store = INITIAL_STATE, action: action) => {
         switch (action.type) {
             case RESET:
                 return { ...INITIAL_STATE }
